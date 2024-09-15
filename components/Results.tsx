@@ -1,9 +1,12 @@
 import { Text, Box } from '../ui.js';
 
-interface ResultProps {
-  yes: string;
-  no: string;
-}
+// TODO: How to type unknown variables from DB
+// interface ResultProps {
+//   results: {
+//     yes: string;
+//     no: string;
+//   };
+// }
 
 function Results({ results }) {
   console.log('inside results', results);

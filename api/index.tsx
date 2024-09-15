@@ -43,7 +43,7 @@ app.frame('/', (c) => {
 
 app.frame('/vote', async (c) => {
   const { buttonValue, status, frameData } = c;
-  const fid = 19;
+  const fid = 199;
   // User has already voted
   const hasVoted = await validateVote(fid);
   if (hasVoted) {
