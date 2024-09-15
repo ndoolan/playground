@@ -1,4 +1,6 @@
-async function hasVoted(id) {
+import { kv } from '../db/kv-db.js';
+
+export async function validateVote(id: number) {
   try {
     let user = await kv.get(`user${id}`);
     // if no user exists in database

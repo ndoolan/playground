@@ -1,6 +1,6 @@
 import { Text, Box } from '../ui.js';
 
-function App() {
+function App(c) {
   return (
     <Box>
       <Text>

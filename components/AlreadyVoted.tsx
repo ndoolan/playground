@@ -3,7 +3,7 @@ import { Text, Box } from '../ui.js';
 function AlreadyVoted() {
   return (
     <Box>
-      <Text>Already Voted Component</Text>
+      <Text>Sneaky, sneaky - you already voted friend</Text>
     </Box>
   );
 }

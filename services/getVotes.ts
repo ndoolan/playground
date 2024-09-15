@@ -1,3 +1,5 @@
+import { kv } from '../db/kv-db.js';
+
 export async function getVotes() {
   try {
     const noVotes = await kv.get('no');

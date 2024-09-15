@@ -5,6 +5,9 @@ import { serveStatic } from 'frog/serve-static';
 import { handle } from 'frog/vercel';
 import { vars } from '../ui.js';
 import { AlreadyVoted, Poll, Results } from '../components/index.js';
+import { validateVote } from '../services/validateVoted.js';
+import { getVotes } from '../services/getVotes.js';
+import { handleVote } from '../services/handleVote.js';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -38,31 +41,35 @@ app.frame('/', (c) => {
   });
 });
 
-app.frame('/vote', (c) => {
-  const { buttonValue, inputText, status } = c;
-
-  const voted = false;
-
+app.frame('/vote', async (c) => {
+  const { buttonValue, status, frameData } = c;
+  const fid = 19;
   // User has already voted
-  if (voted) {
+  const hasVoted = await validateVote(fid);
+  if (hasVoted) {
     return c.res({
       image: <AlreadyVoted />,
       intents: [status === 'response' && <Button.Reset>Reset</Button.Reset>],
     });
   }
-
-  // Logic to get that state
+  // Cast Vote
+  await handleVote(buttonValue);
+  // Get All Votes to Pass Into Results Component
+  const results = await getVotes();
 
   return c.res({
-    image: <Results />,
+    // Traditional React Props Style - separating from 'c' (context) of Frog
+    image: <Results results={results} />,
     intents: [status === 'response' && <Button.Reset>Reset</Button.Reset>],
   });
 });
 
-app.frame('/results', (c) => {
-  const { buttonValue, inputText, status } = c;
+app.frame('/results', async (c) => {
+  const { status } = c;
+  const results = await getVotes();
+
   return c.res({
-    image: <Results />,
+    image: <Results results={results} />,
     intents: [status === 'response' && <Button.Reset>Reset</Button.Reset>],
   });
 });
